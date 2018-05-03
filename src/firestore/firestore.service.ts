@@ -91,13 +91,13 @@ export class AngularFireLiteFirestore {
       if (slashes % 2 === 0) {
         this.firestore.collection(ref).onSnapshot((snapshot) => {
           snapshot.docs.forEach((doc) => {
-            data.push(doc.data());
+            data.push(Object.assign({}, doc.data(), { $key: doc.id }));
           });
           DATA.next(data);
         });
       } else {
         this.firestore.doc(ref).onSnapshot((snapshot) => {
-          DATA.next(snapshot.data());
+          DATA.next(Object.assign({}, snapshot.data(), { $key: snapshot.id }));
         });
       }
       return DATA;
@@ -320,7 +320,7 @@ export class AngularFireLiteFirestore {
           BQ.onSnapshot((snapshot) => {
             const data = [];
             snapshot.forEach((doc) => {
-              data.push(doc.data());
+              data.push(doc);
             });
             VALUE.next(data);
           });

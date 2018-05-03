@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { AngularFireLiteApp } from '../core.service';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import "rxjs/add/observable/of";
 
 import { auth } from 'firebase/app';
 
@@ -22,7 +23,6 @@ export class AngularFireLiteAuth {
     this.auth = app.instance().auth();
     this.config = app.config();
   }
-
 
   // ------------- Authentication Information Getters -----------------//
 
@@ -65,6 +65,9 @@ export class AngularFireLiteAuth {
 
   userData(): Subject<any> | Observable<any> {
     if (this.server) {
+      if (!this.auth.currentUser) {
+        return Observable.of({});
+      }
       return fromPromise(this.auth.currentUser.getIdToken(true).then((idToken) => {
         return this.http.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=${this.config.apiKey}`, {
           'idToken': idToken

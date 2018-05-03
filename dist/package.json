@@ -8,9 +8,6 @@
     "type": "git",
     "url": "https://github.com/hamedbaatour/angularfire-lite"
   },
-  "scripts": {
-    "build": "ng-packagr"
-  },
   "private": false,
   "peerDependencies": {
     "firebase": "^4.9.0",
@@ -40,5 +37,13 @@
     "tslint": "~5.9.0",
     "typescript": "~2.4.2",
     "zone.js": "^0.8.14"
+  },
+  "main": "bundles/angularfire-lite.umd.js",
+  "module": "esm5/angularfire-lite.js",
+  "es2015": "esm2015/angularfire-lite.js",
+  "typings": "angularfire-lite.d.ts",
+  "metadata": "angularfire-lite.metadata.json",
+  "dependencies": {
+    "tslib": "^1.7.1"
   }
 }
