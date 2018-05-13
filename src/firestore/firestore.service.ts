@@ -84,12 +84,12 @@ export class AngularFireLiteFirestore {
         });
     }
     if (this.browser) {
-      const data = [];
       const SSRedValue = this.state.get(dataStateKey, []);
       const DATA = new BehaviorSubject<any>(SSRedValue);
 
       if (slashes % 2 === 0) {
         this.firestore.collection(ref).onSnapshot((snapshot) => {
+          const data = [];
           snapshot.docs.forEach((doc) => {
             data.push(Object.assign({}, doc.data(), { $key: doc.id }));
           });
