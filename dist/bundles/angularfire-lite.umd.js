@@ -601,6 +601,7 @@ var AngularFireLiteFirestore = (function () {
     }
     AngularFireLiteFirestore.prototype.read = function (ref) {
         var _this = this;
+        console.log("read from angularlite");
         var dataStateKey = platformBrowser.makeStateKey(ref);
         var refArray = ref.split('/');
         if (refArray[0] === '/') {
@@ -647,16 +648,19 @@ var AngularFireLiteFirestore = (function () {
                 _this.state.set(dataStateKey, pl);
             });
         }
+        console.log("read request");
         if (this.browser) {
-            var data_1 = [];
             var SSRedValue = this.state.get(dataStateKey, []);
             var DATA_2 = new BehaviorSubject.BehaviorSubject(SSRedValue);
+            console.log("browser ->", this.browser);
             if (slashes % 2 === 0) {
                 this.firestore.collection(ref).onSnapshot(function (snapshot) {
+                    var data = [];
                     snapshot.docs.forEach(function (doc) {
-                        data_1.push(Object.assign({}, doc.data(), { $key: doc.id }));
+                        data.push(Object.assign({}, doc.data(), { $key: doc.id }));
                     });
-                    DATA_2.next(data_1);
+                    console.log("data ->", data);
+                    DATA_2.next(data);
                 });
             }
             else {
@@ -895,14 +899,14 @@ var AngularFireLiteFirestore = (function () {
                     return SQHFS(GETDSK);
                 }
                 if (common.isPlatformBrowser(PID)) {
-                    var data_2 = [];
+                    var data_1 = [];
                     var SSRedValue = state.get(GETDSK, []);
                     var VALUE_2 = new BehaviorSubject.BehaviorSubject(SSRedValue);
                     BQ.get().then(function (snapshot) {
                         snapshot.forEach(function (doc) {
-                            data_2.push(doc);
+                            data_1.push(doc);
                         });
-                        VALUE_2.next(data_2);
+                        VALUE_2.next(data_1);
                     });
                     return VALUE_2;
                 }

@@ -769,6 +769,7 @@ class AngularFireLiteFirestore {
      * @return {?}
      */
     read(ref) {
+        console.log("read from angularlite");
         const /** @type {?} */ dataStateKey = makeStateKey(ref);
         const /** @type {?} */ refArray = ref.split('/');
         if (refArray[0] === '/') {
@@ -815,15 +816,18 @@ class AngularFireLiteFirestore {
                 this.state.set(dataStateKey, pl);
             });
         }
+        console.log("read request");
         if (this.browser) {
-            const /** @type {?} */ data = [];
             const /** @type {?} */ SSRedValue = this.state.get(dataStateKey, []);
             const /** @type {?} */ DATA = new BehaviorSubject(SSRedValue);
+            console.log("browser ->", this.browser);
             if (slashes % 2 === 0) {
                 this.firestore.collection(ref).onSnapshot((snapshot) => {
+                    const /** @type {?} */ data = [];
                     snapshot.docs.forEach((doc) => {
                         data.push(Object.assign({}, doc.data(), { $key: doc.id }));
                     });
+                    console.log("data ->", data);
                     DATA.next(data);
                 });
             }
